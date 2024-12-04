@@ -1,0 +1,11 @@
+digraph
+{
+rankdir = TB;
+{
+_0064FEC0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 0064FEC0 | type = 1 | value = 88.000000 | { left = NULL | right = NULL }} "]
+_0064FEA8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 0064FEA8 | type = 1 | value = 99.000000 | { left = NULL | right = NULL }} "]
+_0064FED8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 0064FED8 | type = 3 | value = + | { <_l_0064FEC0> left = 0064FEC0 | <_r_0064FEA8> right = 0064FEA8 }} "]
+_0064FED8:<_l_0064FEC0>->_0064FEC0
+_0064FED8:<_r_0064FEA8>->_0064FEA8
+}
+}
