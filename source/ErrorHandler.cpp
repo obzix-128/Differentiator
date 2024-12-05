@@ -32,6 +32,26 @@ ErrorNumbers errorHandler(ErrorNumbers error, const char* func_name)
             fprintf(stderr, "ERROR: File not open\n");
             break;
         }
+        case FSEEK_ERROR:
+        {
+            fprintf(stderr, "ERROR: An error occurred in the fseek function\n");
+            break;
+        }
+        case FTELL_ERROR:
+        {
+            fprintf(stderr, "ERROR: An error occurred in the ftell function\n");
+            break;
+        }
+        case SYNTAX_ERROR:
+        {
+            fprintf(stderr, "ERROR: There is a syntax error in the task\n");
+            break;
+        }
+        case ERROR_UNKNOWN_TYPE:
+        {
+            fprintf(stderr, "ERROR: An unknown node type has been detected\n");
+            break;
+        }
         default:
         {
             fprintf(stderr, "Unknown error\n");

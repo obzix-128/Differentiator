@@ -2,8 +2,10 @@
 #define WORKWITHLOGFILE_H
 
 #include "Differentiator.h"
+#include "ErrorHandler.h"
 
 #define OPEN_FILE_IN_RECORDING_MODE "w"
+#define OPEN_FILE_IN_READING_MODE   "r"
 
 ErrorNumbers openFile(FILE** file, const char* file_name, const char* opening_mode);
 ErrorNumbers treeDump(FILE* log_file, Node* root, const char* func_name, Node* new_node);

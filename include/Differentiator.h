@@ -10,11 +10,16 @@ enum ErrorNumbers
     NULL_ADDRESS_ERROR  = 1,
     CALLOC_ERROR        = 2,
     NUMBER_OF_ARG_ERROR = 3,
-    OPEN_ERROR          = 4
+    OPEN_ERROR          = 4,
+    FSEEK_ERROR         = 5,
+    FTELL_ERROR         = 6,
+    SYNTAX_ERROR        = 7,
+    ERROR_UNKNOWN_TYPE  = 8
 };
 
 enum Operations
 {
+    NUL = 0,
     ADD = '+',
     SUB = '-',
     MUL = '*',
@@ -31,7 +36,7 @@ enum NodeType
 union ValueType
 {
     double numeral;
-    int variable;
+    char variable;
     enum Operations operation;
 };
 

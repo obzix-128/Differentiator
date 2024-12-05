@@ -1,5 +1,4 @@
 #include "WorkWithLogFile.h"
-#include "ErrorHandler.h"
 
 
 ErrorNumbers openFile(FILE** file, const char* file_name, const char* opening_mode)
@@ -124,24 +123,34 @@ ErrorNumbers buildAllNodes(Node* node, FILE* file_to_write, Node* new_node)
 
     if(node->left != NULL || node->right != NULL)
     {
-        fprintf(file_to_write, "\", label = \" { address = %p | type = %d | ", node, node->type);
+        fprintf(file_to_write, "\", label = \" { address = %p | ", node);
     }
     else
     {
-        fprintf(file_to_write, "\", label = \" { address = %p | type = %d | ", node, node->type);
+        fprintf(file_to_write, "\", label = \" { address = %p | ", node);
     }
 
-    if(node->type == NUM)
+    switch(node->type)
     {
-        fprintf(file_to_write, "value = %lf | ", node->value.numeral);
-    }
-    else if(node->type == VAR)
-    {
-        fprintf(file_to_write, "value = %d | ", node->value.variable);
-    }
-    else if(node->type == OP)
-    {
-        fprintf(file_to_write, "value = %c | ", node->value.operation);
+        case NUM:
+        {
+            fprintf(file_to_write, "type = NUM | value = %.2lf | ", node->value.numeral);
+            break;
+        }
+        case VAR:
+        {
+            fprintf(file_to_write, "type = VAR | value = %c | ", node->value.variable);
+            break;
+        }
+        case OP:
+        {
+            fprintf(file_to_write, "type = OP | value = %c | ", node->value.operation);
+            break;
+        }
+        default:
+        {
+            check_error = ERROR_UNKNOWN_TYPE;
+        }
     }
 
     if(node->left != NULL)
