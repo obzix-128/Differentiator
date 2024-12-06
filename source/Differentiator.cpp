@@ -31,6 +31,8 @@ int main(const int argc, const char** argv)
 
     CHECK_ERROR(treeDump(log_file, value.node, __PRETTY_FUNCTION__, NULL));
 
+    CHECK_ERROR(treeDtor(log_file, value.node));
+
     free(task_buffer);
     fclose(log_file);
 

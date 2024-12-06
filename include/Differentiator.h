@@ -14,7 +14,7 @@ enum ErrorNumbers
     FSEEK_ERROR         = 5,
     FTELL_ERROR         = 6,
     SYNTAX_ERROR        = 7,
-    ERROR_UNKNOWN_TYPE  = 8
+    TYPE_ERROR  = 8
 };
 
 enum Operations
@@ -23,11 +23,17 @@ enum Operations
     ADD = '+',
     SUB = '-',
     MUL = '*',
-    DIV = '/'
+    DIV = '/',
+    POW = '^',
+    SIN = 's',
+    COS = 'c',
+    TAN = 't',
+    LOG = 'l'
 };
 
 enum NodeType
 {
+    POISON_TYPE = 0,
     NUM = 1,
     VAR = 2,
     OP  = 3

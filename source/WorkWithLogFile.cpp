@@ -147,9 +147,13 @@ ErrorNumbers buildAllNodes(Node* node, FILE* file_to_write, Node* new_node)
             fprintf(file_to_write, "type = OP | value = %c | ", node->value.operation);
             break;
         }
+        case POISON_TYPE:
+        {
+            check_error = TYPE_ERROR;
+        }
         default:
         {
-            check_error = ERROR_UNKNOWN_TYPE;
+            check_error = TYPE_ERROR;
         }
     }
 

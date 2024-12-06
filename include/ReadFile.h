@@ -21,7 +21,10 @@ ErrorNumbers getFileSize(FILE* the_task_file, int* size);
 ReturnValue getG(char* task_buffer);
 ReturnValue getE(char* task_buffer, int* pointer);
 ReturnValue getT(char* task_buffer, int* pointer);
+ReturnValue getS(char* task_buffer, int* pointer);
 ReturnValue getP(char* task_buffer, int* pointer);
+ReturnValue getL(char* task_buffer, int* pointer);
+ReturnValue getF(char* task_buffer, int* pointer);
 ReturnValue getV(char* task_buffer, int* pointer);
 ReturnValue getN(char* task_buffer, int* pointer);
 

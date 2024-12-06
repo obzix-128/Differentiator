@@ -2,8 +2,10 @@
 #define CTORANDDTOR_H
 
 #include "Differentiator.h"
+#include "ErrorHandler.h"
 
-Node* newNode(NodeType type, double numeral_value, int variable, Operations operation_value,
+Node* newNode(NodeType type, double numeral_value, char variable, Operations operation_value,
               Node* left, Node* right);
+ErrorNumbers treeDtor(FILE* log_file, Node* node);
 
 #endif // CTORANDDTOR_H

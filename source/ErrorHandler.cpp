@@ -47,7 +47,7 @@ ErrorNumbers errorHandler(ErrorNumbers error, const char* func_name)
             fprintf(stderr, "ERROR: There is a syntax error in the task\n");
             break;
         }
-        case ERROR_UNKNOWN_TYPE:
+        case TYPE_ERROR:
         {
             fprintf(stderr, "ERROR: An unknown node type has been detected\n");
             break;
