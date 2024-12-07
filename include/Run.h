@@ -11,6 +11,7 @@ ReturnValue differentiateNumeral();
 ReturnValue differentiateVariable();
 ReturnValue differentiateOperation(FILE* log_file, Node* task_node);
 ReturnValue treeCopy(Node* node);
+ReturnValue checkForVariables(Node* task_node, int* counter);
 
 ReturnValue differentiateAddition(FILE* log_file, Node* task_node);
 ReturnValue differentiateSubtraction(FILE* log_file, Node* task_node);

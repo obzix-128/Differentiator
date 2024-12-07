@@ -65,80 +65,115 @@ ReturnValue differentiateOperation(FILE* log_file, Node* task_node)
     IF_NULL_ADDRESS_RETURN_ERROR(log_file,  NULL_ADDRESS_ERROR);
     IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
 
-    ReturnValue new_node   = {};
+    ReturnValue new_node = {};
 
-    switch(task_node->value.operation)
+    int number_of_variables_in_branch = 0;
+    CHECK_RETURN_VALUE(new_node, checkForVariables(task_node, &number_of_variables_in_branch));
+printf("number_of_variables_in_branch = %d\n", number_of_variables_in_branch);
+    if(number_of_variables_in_branch == 0)
     {
-        case ADD:
+        new_node.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        return new_node;
+    }
+    else
+    {
+        switch(task_node->value.operation)
         {
-            CHECK_RETURN_VALUE(new_node, differentiateAddition(log_file, task_node));
-            break;
-        }
-        case SUB:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateSubtraction(log_file, task_node));
-            break;
-        }
-        case MUL:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateMultiplication(log_file, task_node));
-            break;
-        }
-        case DIV:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateDivision(log_file, task_node));
-            break;
-        }
-        case POW:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiatePower(log_file, task_node));
-            break;
-        }
-        case SIN:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateSine(log_file, task_node));
-            break;
-        }
-        case COS:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateCosine(log_file, task_node));
-            break;
-        }
-        case TAN:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateTangent(log_file, task_node));
-            break;
-        }
-        case EXP:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateExponent(log_file, task_node));
-            break;
-        }
-        case LN:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateNaturalLogarithm(log_file, task_node));
-            break;
-        }
-        case LOG:
-        {
-            CHECK_RETURN_VALUE(new_node, differentiateLogarithm(log_file, task_node));
-            break;
-        }
-        case NUL:
-        {
-            new_node.error = TYPE_ERROR;
-            return new_node;
-            break;
-        }
-        default:
-        {
-            new_node.error = TYPE_ERROR;
-            return new_node;
-            break;
+            case ADD:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateAddition(log_file, task_node));
+                break;
+            }
+            case SUB:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateSubtraction(log_file, task_node));
+                break;
+            }
+            case MUL:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateMultiplication(log_file, task_node));
+                break;
+            }
+            case DIV:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateDivision(log_file, task_node));
+                break;
+            }
+            case POW:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiatePower(log_file, task_node));
+                break;
+            }
+            case SIN:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateSine(log_file, task_node));
+                break;
+            }
+            case COS:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateCosine(log_file, task_node));
+                break;
+            }
+            case TAN:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateTangent(log_file, task_node));
+                break;
+            }
+            case EXP:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateExponent(log_file, task_node));
+                break;
+            }
+            case LN:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateNaturalLogarithm(log_file, task_node));
+                break;
+            }
+            case LOG:
+            {
+                CHECK_RETURN_VALUE(new_node, differentiateLogarithm(log_file, task_node));
+                break;
+            }
+            case NUL:
+            {
+                new_node.error = TYPE_ERROR;
+                return new_node;
+                break;
+            }
+            default:
+            {
+                new_node.error = TYPE_ERROR;
+                return new_node;
+                break;
+            }
         }
     }
 
     return new_node;
+}
+
+ReturnValue checkForVariables(Node* task_node, int* counter)
+{
+    IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
+    IF_NULL_ADDRESS_RETURN_ERROR(counter,   NULL_ADDRESS_ERROR);
+
+    ReturnValue check_error = {};
+
+    if(task_node->left != 0)
+    {
+        CHECK_RETURN_VALUE(check_error, checkForVariables(task_node->left, counter));
+    }
+    if(task_node->right != 0)
+    {
+        CHECK_RETURN_VALUE(check_error, checkForVariables(task_node->right, counter));
+    }
+
+    if(task_node->type == VAR)
+    {
+        (*counter)++;
+    }
+
+    return check_error;
 }
 
 ReturnValue differentiateAddition(FILE* log_file, Node* task_node)
