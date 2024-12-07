@@ -69,7 +69,7 @@ ReturnValue differentiateOperation(FILE* log_file, Node* task_node)
 
     int number_of_variables_in_branch = 0;
     CHECK_RETURN_VALUE(new_node, checkForVariables(task_node, &number_of_variables_in_branch));
-printf("number_of_variables_in_branch = %d\n", number_of_variables_in_branch);
+
     if(number_of_variables_in_branch == 0)
     {
         new_node.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
@@ -267,6 +267,72 @@ ReturnValue differentiatePower(FILE* log_file, Node* task_node)
     IF_NULL_ADDRESS_RETURN_ERROR(log_file,  NULL_ADDRESS_ERROR);
     IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
 
+    int number_of_variables_in_basis     = 0;
+    int number_of_variables_in_indicator = 0;
+
+    ReturnValue check_error = {};
+    ReturnValue answer      = {};
+
+    CHECK_RETURN_VALUE(check_error, checkForVariables(task_node->left, &number_of_variables_in_basis));
+    CHECK_RETURN_VALUE(check_error, checkForVariables(task_node->right,
+                                                      &number_of_variables_in_indicator));
+
+    if(number_of_variables_in_basis != 0 && number_of_variables_in_indicator != 0)
+    {
+        ReturnValue first_part_of_answer  = {};
+        ReturnValue second_part_of_answer = {};
+
+        CHECK_RETURN_VALUE(first_part_of_answer,  differentiatePowerFunction(log_file, task_node));
+        CHECK_RETURN_VALUE(second_part_of_answer,
+                           differentiateExponentialFunction(log_file, task_node));
+
+        answer.node = newNode(OP, 0, 0, ADD, first_part_of_answer.node, second_part_of_answer.node);
+    }
+    else if(number_of_variables_in_basis != 0)
+    {
+        CHECK_RETURN_VALUE(answer, differentiatePowerFunction(log_file, task_node));
+    }
+    else if(number_of_variables_in_indicator != 0)
+    {
+        CHECK_RETURN_VALUE(answer, differentiateExponentialFunction(log_file, task_node));
+    }
+    else
+    {
+        answer.error = DIFF_POWER_ERROR;
+    }
+
+    return answer;
+}
+
+ReturnValue differentiateExponentialFunction(FILE* log_file, Node* task_node)
+{
+    IF_NULL_ADDRESS_RETURN_ERROR(log_file,  NULL_ADDRESS_ERROR);
+    IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
+
+    ReturnValue copy_task = {};
+    CHECK_RETURN_VALUE(copy_task, treeCopy(task_node));
+
+    ReturnValue copy_basis_of_degree = {};
+    CHECK_RETURN_VALUE(copy_basis_of_degree, treeCopy(task_node->left));
+
+    Node* natural_logarithm = newNode(OP, 0, 0, LN, copy_basis_of_degree.node, NULL);
+
+    ReturnValue derivative_of_degree_indicator = {};
+    CHECK_RETURN_VALUE(derivative_of_degree_indicator, differentiate(log_file, task_node->right));
+
+    Node* part_of_answer = newNode(OP, 0, 0, MUL, copy_task.node, natural_logarithm);
+
+    ReturnValue answer = {};
+    answer.node = newNode(OP, 0, 0, MUL, part_of_answer, derivative_of_degree_indicator.node);
+
+    return answer;
+}
+
+ReturnValue differentiatePowerFunction(FILE* log_file, Node* task_node)
+{
+    IF_NULL_ADDRESS_RETURN_ERROR(log_file,  NULL_ADDRESS_ERROR);
+    IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
+
     ReturnValue copy_basis_of_degree = {};
     CHECK_RETURN_VALUE(copy_basis_of_degree, treeCopy(task_node->left));
 
@@ -275,7 +341,6 @@ ReturnValue differentiatePower(FILE* log_file, Node* task_node)
 
     Node* one = newNode(NUM, 1, 0, NUL, NULL, NULL);
     Node* new_degree_indicator = newNode(OP, 0, 0, SUB, copy_degree_indicator.node, one);
-
     Node* new_power_expression = newNode(OP, 0, 0, POW, copy_basis_of_degree.node,
                                          new_degree_indicator);
 

@@ -18,6 +18,8 @@ ReturnValue differentiateSubtraction(FILE* log_file, Node* task_node);
 ReturnValue differentiateMultiplication(FILE* log_file, Node* task_node);
 ReturnValue differentiateDivision(FILE* log_file, Node* task_node);
 ReturnValue differentiatePower(FILE* log_file, Node* task_node);
+ReturnValue differentiatePowerFunction(FILE* log_file, Node* task_node);
+ReturnValue differentiateExponentialFunction(FILE* log_file, Node* task_node);
 ReturnValue differentiateSine(FILE* log_file, Node* task_node);
 ReturnValue differentiateCosine(FILE* log_file, Node* task_node);
 ReturnValue differentiateTangent(FILE* log_file, Node* task_node);

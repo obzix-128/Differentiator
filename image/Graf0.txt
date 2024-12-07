@@ -2,24 +2,12 @@ digraph
 {
 rankdir = TB;
 {
-_00CA0CA0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0CA0 | type = VAR | value = x | { left = NULL | right = NULL }} "]
-_00CA0CC0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0CC0 | type = NUM | value = 2.00 | { left = NULL | right = NULL }} "]
-_00CA0CE0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0CE0 | type = OP | value = ^ | { <_l_00CA0CA0> left = 00CA0CA0 | <_r_00CA0CC0> right = 00CA0CC0 }} "]
-_00CA0CE0:<_l_00CA0CA0>->_00CA0CA0
-_00CA0CE0:<_r_00CA0CC0>->_00CA0CC0
-_00CA0D00[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0D00 | type = NUM | value = 4.00 | { left = NULL | right = NULL }} "]
-_00CA0D20[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0D20 | type = OP | value = c | { <_l_00CA0D00> left = 00CA0D00 | right = NULL }} "]
-_00CA0D20:<_l_00CA0D00>->_00CA0D00
-_00CA0D40[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0D40 | type = NUM | value = 3.00 | { left = NULL | right = NULL }} "]
-_00CA0D60[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0D60 | type = NUM | value = 5.00 | { left = NULL | right = NULL }} "]
-_00CA0D80[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0D80 | type = OP | value = l | { <_l_00CA0D40> left = 00CA0D40 | <_r_00CA0D60> right = 00CA0D60 }} "]
-_00CA0D80:<_l_00CA0D40>->_00CA0D40
-_00CA0D80:<_r_00CA0D60>->_00CA0D60
-_00CA0DA0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0DA0 | type = OP | value = * | { <_l_00CA0D20> left = 00CA0D20 | <_r_00CA0D80> right = 00CA0D80 }} "]
-_00CA0DA0:<_l_00CA0D20>->_00CA0D20
-_00CA0DA0:<_r_00CA0D80>->_00CA0D80
-_00CA0DC0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00CA0DC0 | type = OP | value = + | { <_l_00CA0CE0> left = 00CA0CE0 | <_r_00CA0DA0> right = 00CA0DA0 }} "]
-_00CA0DC0:<_l_00CA0CE0>->_00CA0CE0
-_00CA0DC0:<_r_00CA0DA0>->_00CA0DA0
+_00900C98[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00900C98 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00900CB8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00900CB8 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00900CD8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00900CD8 | type = OP | value = c | { <_l_00900CB8> left = 00900CB8 | right = NULL }} "]
+_00900CD8:<_l_00900CB8>->_00900CB8
+_00900CF8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00900CF8 | type = OP | value = ^ | { <_l_00900C98> left = 00900C98 | <_r_00900CD8> right = 00900CD8 }} "]
+_00900CF8:<_l_00900C98>->_00900C98
+_00900CF8:<_r_00900CD8>->_00900CD8
 }
 }

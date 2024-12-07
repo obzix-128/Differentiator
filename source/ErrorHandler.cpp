@@ -52,6 +52,11 @@ ErrorNumbers errorHandler(ErrorNumbers error, const char* func_name)
             fprintf(stderr, "ERROR: An unknown node type has been detected\n");
             break;
         }
+        case DIFF_POWER_ERROR:
+        {
+            fprintf(stderr, "ERROR: An error occurred in the differentiatePower function\n");
+            break;
+        }
         default:
         {
             fprintf(stderr, "Unknown error\n");
