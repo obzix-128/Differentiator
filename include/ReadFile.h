@@ -28,6 +28,7 @@ ReturnValue getF(char* task_buffer, int* pointer);
 ReturnValue getV(char* task_buffer, int* pointer);
 ReturnValue getN(char* task_buffer, int* pointer);
 
+//TODO: Переделать либо это, либо CHECK_ERROR под один стиль
 #define CHECK_RETURN_VALUE(var, func) var = func;                                       \
                                       if(var.error != NO_ERROR)                         \
                                       {                                                 \

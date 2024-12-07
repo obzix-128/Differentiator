@@ -2,7 +2,7 @@
 #include "WorkWithLogFile.h"
 #include "ErrorHandler.h"
 #include "ReadFile.h"
-
+#include "Run.h"
 
 int main(const int argc, const char** argv)
 {
@@ -30,6 +30,10 @@ int main(const int argc, const char** argv)
     }
 
     CHECK_ERROR(treeDump(log_file, value.node, __PRETTY_FUNCTION__, NULL));
+
+    ReturnValue answer = differentiate(log_file, value.node);
+
+    CHECK_ERROR(treeDump(log_file, answer.node, __PRETTY_FUNCTION__, NULL));
 
     CHECK_ERROR(treeDtor(log_file, value.node));
 

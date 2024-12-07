@@ -28,6 +28,8 @@ enum Operations
     SIN = 's',
     COS = 'c',
     TAN = 't',
+    EXP = 'e',
+    LN  = 'n',
     LOG = 'l'
 };
 
@@ -54,8 +56,8 @@ struct Node
     struct Node* right;
 };
 
-#define CHECK_NULL_ADDR_ERROR(variable, ERROR_NUMBER) if(variable == NULL) \
-                                                      { \
+#define CHECK_NULL_ADDR_ERROR(variable, ERROR_NUMBER) if(variable == NULL)     \
+                                                      {                        \
                                                           return ERROR_NUMBER; \
                                                       }
 

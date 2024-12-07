@@ -270,23 +270,33 @@ ReturnValue getL(char* task_buffer, int* pointer)
 
 ReturnValue getF(char* task_buffer, int* pointer)
 {
-    Operations opertion = NUL;
+    Operations operation = NUL;
     ReturnValue value = {};
     switch(task_buffer[*pointer])
     {
         case 's':
         {
-            opertion = SIN;
+            operation = SIN;
             break;
         }
         case 'c':
         {
-            opertion = COS;
+            operation = COS;
             break;
         }
         case 't':
         {
-            opertion = TAN;
+            operation = TAN;
+            break;
+        }
+        case 'e':
+        {
+            operation = EXP;
+            break;
+        }
+        case 'n':
+        {
+            operation = LN;
             break;
         }
         default:
@@ -305,7 +315,7 @@ ReturnValue getF(char* task_buffer, int* pointer)
     (*pointer)++;
 
     ReturnValue value_two = getE(task_buffer, pointer);
-    value.node = newNode(OP, 0, 0, opertion, value_two.node, NULL);
+    value.node = newNode(OP, 0, 0, operation, value_two.node, NULL);
 
     if(task_buffer[*pointer] != ')')
     {
