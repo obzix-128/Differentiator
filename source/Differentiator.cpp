@@ -3,6 +3,8 @@
 #include "ErrorHandler.h"
 #include "ReadFile.h"
 #include "Run.h"
+#include "Simplify.h"
+
 
 int main(const int argc, const char** argv)
 {
@@ -36,6 +38,15 @@ int main(const int argc, const char** argv)
     {
         errorHandler(answer.error, __PRETTY_FUNCTION__);
         return answer.error;
+    }
+
+    CHECK_ERROR(treeDump(log_file, answer.node, __PRETTY_FUNCTION__, NULL));
+
+    ReturnValue check_return_value = simplifyExpression(log_file, answer.node);
+    if(check_return_value.error != NO_ERROR)
+    {
+        errorHandler(check_return_value.error, __PRETTY_FUNCTION__);
+        return check_return_value.error;
     }
 
     CHECK_ERROR(treeDump(log_file, answer.node, __PRETTY_FUNCTION__, NULL));

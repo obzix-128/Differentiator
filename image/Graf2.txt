@@ -2,22 +2,84 @@ digraph
 {
 rankdir = TB;
 {
-_00C61108[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C61108 | type = VAR | value = x | { left = NULL | right = NULL }} "]
-_00C61088[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C61088 | type = NUM | value = 1.00 | { left = NULL | right = NULL }} "]
-_00C604B0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C604B0 | type = VAR | value = x | { left = NULL | right = NULL }} "]
-_00C60E88[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C60E88 | type = VAR | value = x | { left = NULL | right = NULL }} "]
-_00C61188[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C61188 | type = NUM | value = 1.00 | { left = NULL | right = NULL }} "]
-_00C61048[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C61048 | type = OP | value = - | { <_l_00C60E88> left = 00C60E88 | <_r_00C61188> right = 00C61188 }} "]
-_00C61048:<_l_00C60E88>->_00C60E88
-_00C61048:<_r_00C61188>->_00C61188
-_00C61168[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C61168 | type = OP | value = ^ | { <_l_00C604B0> left = 00C604B0 | <_r_00C61048> right = 00C61048 }} "]
-_00C61168:<_l_00C604B0>->_00C604B0
-_00C61168:<_r_00C61048>->_00C61048
-_00C61128[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C61128 | type = OP | value = * | { <_l_00C61088> left = 00C61088 | <_r_00C61168> right = 00C61168 }} "]
-_00C61128:<_l_00C61088>->_00C61088
-_00C61128:<_r_00C61168>->_00C61168
-_00C60F28[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00C60F28 | type = OP | value = * | { <_l_00C61108> left = 00C61108 | <_r_00C61128> right = 00C61128 }} "]
-_00C60F28:<_l_00C61108>->_00C61108
-_00C60F28:<_r_00C61128>->_00C61128
+_00850FB8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850FB8 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00857238[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857238 | type = NUM | value = 5.00 | { left = NULL | right = NULL }} "]
+_008510F8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008510F8 | type = OP | value = ^ | { <_l_00850FB8> left = 00850FB8 | <_r_00857238> right = 00857238 }} "]
+_008510F8:<_l_00850FB8>->_00850FB8
+_008510F8:<_r_00857238>->_00857238
+_00850EB8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850EB8 | type = OP | value = c | { <_l_008510F8> left = 008510F8 | right = NULL }} "]
+_00850EB8:<_l_008510F8>->_008510F8
+_00857258[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857258 | type = NUM | value = 1.00 | { left = NULL | right = NULL }} "]
+_00850DF0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850DF0 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00850E10[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850E10 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00857038[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857038 | type = NUM | value = 5.00 | { left = NULL | right = NULL }} "]
+_00856F08[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00856F08 | type = OP | value = ^ | { <_l_00850E10> left = 00850E10 | <_r_00857038> right = 00857038 }} "]
+_00856F08:<_l_00850E10>->_00850E10
+_00856F08:<_r_00857038>->_00857038
+_00851198[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00851198 | type = OP | value = c | { <_l_00856F08> left = 00856F08 | right = NULL }} "]
+_00851198:<_l_00856F08>->_00856F08
+_00857278[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857278 | type = NUM | value = 1.00 | { left = NULL | right = NULL }} "]
+_008511B8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008511B8 | type = OP | value = - | { <_l_00851198> left = 00851198 | <_r_00857278> right = 00857278 }} "]
+_008511B8:<_l_00851198>->_00851198
+_008511B8:<_r_00857278>->_00857278
+_008511D8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008511D8 | type = OP | value = ^ | { <_l_00850DF0> left = 00850DF0 | <_r_008511B8> right = 008511B8 }} "]
+_008511D8:<_l_00850DF0>->_00850DF0
+_008511D8:<_r_008511B8>->_008511B8
+_00850FF8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850FF8 | type = OP | value = * | { <_l_00857258> left = 00857258 | <_r_008511D8> right = 008511D8 }} "]
+_00850FF8:<_l_00857258>->_00857258
+_00850FF8:<_r_008511D8>->_008511D8
+_00850F38[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850F38 | type = OP | value = * | { <_l_00850EB8> left = 00850EB8 | <_r_00850FF8> right = 00850FF8 }} "]
+_00850F38:<_l_00850EB8>->_00850EB8
+_00850F38:<_r_00850FF8>->_00850FF8
+_00851058[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00851058 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00851218[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00851218 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_008572B8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008572B8 | type = NUM | value = 5.00 | { left = NULL | right = NULL }} "]
+_00851278[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00851278 | type = OP | value = ^ | { <_l_00851218> left = 00851218 | <_r_008572B8> right = 008572B8 }} "]
+_00851278:<_l_00851218>->_00851218
+_00851278:<_r_008572B8>->_008572B8
+_00850EF8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850EF8 | type = OP | value = c | { <_l_00851278> left = 00851278 | right = NULL }} "]
+_00850EF8:<_l_00851278>->_00851278
+_00850ED8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850ED8 | type = OP | value = ^ | { <_l_00851058> left = 00851058 | <_r_00850EF8> right = 00850EF8 }} "]
+_00850ED8:<_l_00851058>->_00851058
+_00850ED8:<_r_00850EF8>->_00850EF8
+_00850F18[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850F18 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00850F78[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00850F78 | type = OP | value = n | { <_l_00850F18> left = 00850F18 | right = NULL }} "]
+_00850F78:<_l_00850F18>->_00850F18
+_00857298[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857298 | type = OP | value = * | { <_l_00850ED8> left = 00850ED8 | <_r_00850F78> right = 00850F78 }} "]
+_00857298:<_l_00850ED8>->_00850ED8
+_00857298:<_r_00850F78>->_00850F78
+_008575B8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008575B8 | type = NUM | value = -1.00 | { left = NULL | right = NULL }} "]
+_00851158[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00851158 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00857418[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857418 | type = NUM | value = 5.00 | { left = NULL | right = NULL }} "]
+_00851018[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00851018 | type = OP | value = ^ | { <_l_00851158> left = 00851158 | <_r_00857418> right = 00857418 }} "]
+_00851018:<_l_00851158>->_00851158
+_00851018:<_r_00857418>->_00857418
+_00851078[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00851078 | type = OP | value = s | { <_l_00851018> left = 00851018 | right = NULL }} "]
+_00851078:<_l_00851018>->_00851018
+_00851098[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00851098 | type = OP | value = * | { <_l_008575B8> left = 008575B8 | <_r_00851078> right = 00851078 }} "]
+_00851098:<_l_008575B8>->_008575B8
+_00851098:<_r_00851078>->_00851078
+_008573D8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008573D8 | type = NUM | value = 5.00 | { left = NULL | right = NULL }} "]
+_008574F8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008574F8 | type = NUM | value = 1.00 | { left = NULL | right = NULL }} "]
+_008571D8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008571D8 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00857658[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857658 | type = NUM | value = 4.00 | { left = NULL | right = NULL }} "]
+_008570D8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008570D8 | type = OP | value = ^ | { <_l_008571D8> left = 008571D8 | <_r_00857658> right = 00857658 }} "]
+_008570D8:<_l_008571D8>->_008571D8
+_008570D8:<_r_00857658>->_00857658
+_00857058[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857058 | type = OP | value = * | { <_l_008574F8> left = 008574F8 | <_r_008570D8> right = 008570D8 }} "]
+_00857058:<_l_008574F8>->_008574F8
+_00857058:<_r_008570D8>->_008570D8
+_00857198[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857198 | type = OP | value = * | { <_l_008573D8> left = 008573D8 | <_r_00857058> right = 00857058 }} "]
+_00857198:<_l_008573D8>->_008573D8
+_00857198:<_r_00857058>->_00857058
+_00856F98[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00856F98 | type = OP | value = * | { <_l_00851098> left = 00851098 | <_r_00857198> right = 00857198 }} "]
+_00856F98:<_l_00851098>->_00851098
+_00856F98:<_r_00857198>->_00857198
+_008572F8[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 008572F8 | type = OP | value = * | { <_l_00857298> left = 00857298 | <_r_00856F98> right = 00856F98 }} "]
+_008572F8:<_l_00857298>->_00857298
+_008572F8:<_r_00856F98>->_00856F98
+_00857118[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00857118 | type = OP | value = + | { <_l_00850F38> left = 00850F38 | <_r_008572F8> right = 008572F8 }} "]
+_00857118:<_l_00850F38>->_00850F38
+_00857118:<_r_008572F8>->_008572F8
 }
 }
