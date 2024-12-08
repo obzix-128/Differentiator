@@ -30,8 +30,8 @@ ReturnValue differentiateLogarithm(FILE* log_file, Node* task_node);
 #define IF_NULL_ADDRESS_RETURN_ERROR(var, error) if(var == NULL)                               \
                                                  {                                             \
                                                      errorHandler(error, __PRETTY_FUNCTION__); \
-                                                     ReturnValue check_error = {NULL, error};  \
-                                                     return check_error;                       \
+                                                     ReturnValue check_errors = {NULL, error};  \
+                                                     return check_errors;                       \
                                                  }
 
 #endif // RUN_H

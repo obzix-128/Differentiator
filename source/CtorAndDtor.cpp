@@ -46,6 +46,7 @@ ErrorNumbers treeDtor(FILE* log_file, Node* node)
     node->value.numeral = 0;
     node->left  = NULL;
     node->right = NULL;
+
     free(node);
 
     return check_error;

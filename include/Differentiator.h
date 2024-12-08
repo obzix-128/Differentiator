@@ -15,7 +15,8 @@ enum ErrorNumbers
     FTELL_ERROR         = 6,
     SYNTAX_ERROR        = 7,
     TYPE_ERROR          = 8,
-    DIFF_POWER_ERROR    = 9
+    DIFF_POWER_ERROR    = 9,
+    UNCERTAINTY_ERROR   = 10
 };
 
 enum Operations

@@ -49,9 +49,9 @@ int main(const int argc, const char** argv)
         return check_return_value.error;
     }
 
-    CHECK_ERROR(treeDump(log_file, answer.node, __PRETTY_FUNCTION__, NULL));
+    CHECK_ERROR(treeDump(log_file, check_return_value.node, __PRETTY_FUNCTION__, NULL));
 
-    CHECK_ERROR(treeDtor(log_file, value.node));
+    CHECK_ERROR(treeDtor(log_file, check_return_value.node));
 
     free(task_buffer);
     fclose(log_file);

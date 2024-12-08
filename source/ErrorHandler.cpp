@@ -57,6 +57,11 @@ ErrorNumbers errorHandler(ErrorNumbers error, const char* func_name)
             fprintf(stderr, "ERROR: An error occurred in the differentiatePower function\n");
             break;
         }
+        case UNCERTAINTY_ERROR:
+        {
+            fprintf(stderr, "ERROR: Division by zero is detected\n");
+            break;
+        }
         default:
         {
             fprintf(stderr, "Unknown error\n");
