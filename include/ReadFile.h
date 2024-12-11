@@ -15,17 +15,16 @@ struct ReturnValue
     ErrorNumbers error;
 };
 
-ReturnValue getG(char* task_buffer);
-ReturnValue getE(char* task_buffer, int* pointer);
-ReturnValue getT(char* task_buffer, int* pointer);
-ReturnValue getS(char* task_buffer, int* pointer);
-ReturnValue getP(char* task_buffer, int* pointer);
-ReturnValue getL(char* task_buffer, int* pointer);
-ReturnValue getF(char* task_buffer, int* pointer);
-ReturnValue getV(char* task_buffer, int* pointer);
-ReturnValue getN(char* task_buffer, int* pointer);
+ReturnValue recursiveDescent    (char* task_buffer);
+ReturnValue getExpression       (char* task_buffer, int* pointer);
+ReturnValue getTerm             (char* task_buffer, int* pointer);
+ReturnValue getPower            (char* task_buffer, int* pointer);
+ReturnValue getPrimaryExpression(char* task_buffer, int* pointer);
+ReturnValue getFuncWithTwoArg   (char* task_buffer, int* pointer);
+ReturnValue getFuncWithOneArg   (char* task_buffer, int* pointer);
+ReturnValue getVariable         (char* task_buffer, int* pointer);
+ReturnValue getNumeral          (char* task_buffer, int* pointer);
 
-//TODO: Переделать либо это, либо CHECK_ERROR под один стиль
 #define CHECK_RETURN_VALUE(var, func) var = func;                                       \
                                       if(var.error != NO_ERROR)                         \
                                       {                                                 \

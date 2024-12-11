@@ -2,7 +2,7 @@
 #include "WorkWithLogFile.h"
 #include "ErrorHandler.h"
 #include "ReadFile.h"
-#include "Run.h"
+#include "DoDiff.h"
 #include "Simplify.h"
 #include "WriteFile.h"
 
@@ -25,7 +25,7 @@ int main(const int argc, const char** argv)
     char* task_buffer = NULL;
     CHECK_ERROR(readFile(argv[2], &task_buffer));
 
-    ReturnValue value = getG(task_buffer);
+    ReturnValue value = recursiveDescent(task_buffer);
     if(value.error != NO_ERROR)
     {
         errorHandler(value.error, __PRETTY_FUNCTION__);
@@ -34,7 +34,7 @@ int main(const int argc, const char** argv)
 
     CHECK_ERROR(treeDump(log_file, value.node, __PRETTY_FUNCTION__, NULL));
 
-    ReturnValue answer = differentiate(log_file, value.node);
+    ReturnValue answer = diff(log_file, value.node);
     if(answer.error != NO_ERROR)
     {
         errorHandler(answer.error, __PRETTY_FUNCTION__);

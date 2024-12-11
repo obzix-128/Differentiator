@@ -21,18 +21,18 @@ enum ErrorNumbers
 
 enum Operations
 {
-    NUL = 0,
-    ADD = '+',
-    SUB = '-',
-    MUL = '*',
-    DIV = '/',
-    POW = '^',
-    SIN = 's',
-    COS = 'c',
-    TAN = 't',
-    EXP = 'e',
-    LN  = 'n',
-    LOG = 'l'
+    POISON = 0,
+    ADD    = '+',
+    SUB    = '-',
+    MUL    = '*',
+    DIV    = '/',
+    POW    = '^',
+    SIN    = 's',
+    COS    = 'c',
+    TAN    = 't',
+    EXP    = 'e',
+    LN     = 'n',
+    LOG    = 'l'
 };
 
 enum NodeType

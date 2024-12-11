@@ -248,7 +248,7 @@ ErrorNumbers writeOperation(FILE* log_file, FILE* file_to_write, Node* node)
 
             break;
         }
-        case NUL:
+        case POISON:
         {
             check_error = TYPE_ERROR;
             return check_error;

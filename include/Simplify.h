@@ -5,7 +5,7 @@
 #include "ErrorHandler.h"
 #include "WorkWithLogFile.h"
 #include "ReadFile.h"
-#include "Run.h"
+#include "DoDiff.h"
 #include "WorkWithDouble.h"
 #include "CtorAndDtor.h"
 

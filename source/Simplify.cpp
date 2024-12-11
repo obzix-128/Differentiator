@@ -143,7 +143,7 @@ ReturnValue determineTypeOfNodeOperation(FILE* log_file, Node* node, int* simpli
                                                               simplification_counter));
             break;
         }
-        case NUL:
+        case POISON:
         {
             answer.error = TYPE_ERROR;
             return answer;
@@ -170,7 +170,7 @@ ReturnValue removeTrivialAddition(FILE* log_file, Node* node, int* simplificatio
 
     if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0)) // TODO? Создать дефайн/константу
     {
-        return_value.node = newNode(node->right->type, 0, 0, NUL, node->right->left,
+        return_value.node = newNode(node->right->type, 0, 0, POISON, node->right->left,
                                     node->right->right);
         return_value.node->value = node->right->value;
 
@@ -180,7 +180,7 @@ ReturnValue removeTrivialAddition(FILE* log_file, Node* node, int* simplificatio
     }
     else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 0))
     {
-        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+        return_value.node = newNode(node->left->type, 0, 0, POISON, node->left->left,
                                     node->left->right);
         return_value.node->value = node->left->value;
 
@@ -206,7 +206,7 @@ ReturnValue removeTrivialSubtraction(FILE* log_file, Node* node, int* simplifica
 
     if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0))
     {
-        Node* negative_one = newNode(NUM, -1, 0, NUL, NULL, NULL);
+        Node* negative_one = newNode(NUM, -1, 0, POISON, NULL, NULL);
         return_value.node = newNode(OP, 0, 0, MUL, negative_one, node->right);
 
         free(node);
@@ -215,7 +215,7 @@ ReturnValue removeTrivialSubtraction(FILE* log_file, Node* node, int* simplifica
     }
     else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 0))
     {
-        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+        return_value.node = newNode(node->left->type, 0, 0, POISON, node->left->left,
                                     node->left->right);
         return_value.node->value = node->left->value;
 
@@ -242,7 +242,7 @@ ReturnValue removeTrivialMultiplication(FILE* log_file, Node* node, int* simplif
 
     if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 1))
     {
-        return_value.node = newNode(node->right->type, 0, 0, NUL, node->right->left,
+        return_value.node = newNode(node->right->type, 0, 0, POISON, node->right->left,
                                     node->right->right);
         return_value.node->value = node->right->value;
 
@@ -259,13 +259,13 @@ ReturnValue removeTrivialMultiplication(FILE* log_file, Node* node, int* simplif
             return return_value;
         }
 
-        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 0, 0, POISON, NULL, NULL);
 
         (*simplification_counter)++;
     }
     else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 1))
     {
-        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+        return_value.node = newNode(node->left->type, 0, 0, POISON, node->left->left,
                                     node->left->right);
         return_value.node->value = node->left->value;
 
@@ -282,7 +282,7 @@ ReturnValue removeTrivialMultiplication(FILE* log_file, Node* node, int* simplif
             return return_value;
         }
 
-        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 0, 0, POISON, NULL, NULL);
         (*simplification_counter)++;
     }
     else
@@ -311,13 +311,13 @@ ReturnValue removeTrivialDivision(FILE* log_file, Node* node, int* simplificatio
             return return_value;
         }
 
-        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 0, 0, POISON, NULL, NULL);
 
         (*simplification_counter)++;
     }
     else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 1))
     {
-        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+        return_value.node = newNode(node->left->type, 0, 0, POISON, node->left->left,
                                     node->left->right);
         return_value.node->value = node->left->value;
 
@@ -356,7 +356,7 @@ ReturnValue removeTrivialPower(FILE* log_file, Node* node, int* simplification_c
             return return_value;
         }
 
-        return_value.node = newNode(NUM, 1, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 1, 0, POISON, NULL, NULL);
 
         (*simplification_counter)++;
     }
@@ -369,14 +369,14 @@ ReturnValue removeTrivialPower(FILE* log_file, Node* node, int* simplification_c
             return return_value;
         }
 
-        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 0, 0, POISON, NULL, NULL);
 
         (*simplification_counter)++;
     }
     else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 1))
     {
 
-        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+        return_value.node = newNode(node->left->type, 0, 0, POISON, node->left->left,
                                     node->left->right);
         return_value.node->value = node->left->value;
 
@@ -393,7 +393,7 @@ ReturnValue removeTrivialPower(FILE* log_file, Node* node, int* simplification_c
             return return_value;
         }
 
-        return_value.node = newNode(NUM, 1, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 1, 0, POISON, NULL, NULL);
         (*simplification_counter)++;
     }
     else
@@ -422,7 +422,7 @@ ReturnValue removeTrivialNaturalLogarithm(FILE* log_file, Node* node, int* simpl
             return return_value;
         }
 
-        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 0, 0, POISON, NULL, NULL);
 
         (*simplification_counter)++;
     }
@@ -452,7 +452,7 @@ ReturnValue removeTrivialLogarithm(FILE* log_file, Node* node, int* simplificati
             return return_value;
         }
 
-        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 0, 0, POISON, NULL, NULL);
 
         (*simplification_counter)++;
     }
@@ -494,7 +494,7 @@ ReturnValue findBranchSuitableForEvaluation(FILE* log_file, Node* node, int* sim
                 return check_error;
             }
 
-            node->left = newNode(NUM, branch_value.value, 0, NUL, NULL, NULL);
+            node->left = newNode(NUM, branch_value.value, 0, POISON, NULL, NULL);
         }
         else
         {
@@ -523,7 +523,7 @@ ReturnValue findBranchSuitableForEvaluation(FILE* log_file, Node* node, int* sim
                 return check_error;
             }
 
-            node->right = newNode(NUM, branch_value.value, 0, NUL, NULL, NULL);
+            node->right = newNode(NUM, branch_value.value, 0, POISON, NULL, NULL);
         }
         else
         {
@@ -570,7 +570,7 @@ ReturnValueEvaluate evaluate(FILE* log_file, Node* node, int* simplification_cou
             (*simplification_counter)++;
             break;
         }
-        case NUL:
+        case POISON:
         {
             check_error.error = TYPE_ERROR;
             return check_error;
@@ -596,39 +596,38 @@ ReturnValueEvaluate evaluateOperation(FILE* log_file, Node* node, int* simplific
         return check_error;
     }
 
-    ReturnValueEvaluate answer = {};
+    ReturnValueEvaluate answer       = {};
+    ReturnValueEvaluate left_branch  = {};
+    ReturnValueEvaluate right_branch = {};
+
+    if(node->left != NULL)
+    {
+        left_branch  = evaluate(log_file, node->left, simplification_counter);
+    }
+    if(node->right != NULL)
+    {
+        right_branch = evaluate(log_file, node->right, simplification_counter);
+    }
 
     switch(node->value.operation)
     {
         case ADD:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left,  simplification_counter);
-            ReturnValueEvaluate right_branch = evaluate(log_file, node->right, simplification_counter);
-
             answer.value = left_branch.value + right_branch.value;
             break;
         }
         case SUB:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left,  simplification_counter);
-            ReturnValueEvaluate right_branch = evaluate(log_file, node->right, simplification_counter);
-
             answer.value = left_branch.value - right_branch.value;
             break;
         }
         case MUL:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left,  simplification_counter);
-            ReturnValueEvaluate right_branch = evaluate(log_file, node->right, simplification_counter);
-
             answer.value = left_branch.value * right_branch.value;
             break;
         }
         case DIV:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left,  simplification_counter);
-            ReturnValueEvaluate right_branch = evaluate(log_file, node->right, simplification_counter);
-
             if(isItAboutSame(right_branch.value, 0))
             {
                 answer.error = UNCERTAINTY_ERROR;
@@ -640,56 +639,54 @@ ReturnValueEvaluate evaluateOperation(FILE* log_file, Node* node, int* simplific
         }
         case POW:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left,  simplification_counter);
-            ReturnValueEvaluate right_branch = evaluate(log_file, node->right, simplification_counter);
-
             answer.value = pow(left_branch.value, right_branch.value);
             break;
         }
         case SIN:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left, simplification_counter);
-
             answer.value = sin(left_branch.value);
             break;
         }
         case COS:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left, simplification_counter);
-
             answer.value = cos(left_branch.value);
             break;
         }
         case TAN:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left, simplification_counter);
-
             answer.value = tan(left_branch.value);
             break;
         }
         case EXP:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left, simplification_counter);
-
             answer.value = exp(left_branch.value);
             break;
         }
         case LN:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left, simplification_counter);
+            if(left_branch.value <= 0)
+            {
+                answer.error = UNCERTAINTY_ERROR;
+                return answer;
+            }
 
             answer.value = log(left_branch.value);
             break;
         }
         case LOG:
         {
-            ReturnValueEvaluate left_branch  = evaluate(log_file, node->left,  simplification_counter);
-            ReturnValueEvaluate right_branch = evaluate(log_file, node->right, simplification_counter);
+            if(left_branch.value <= 0  ||
+               right_branch.value <= 0 ||
+               isItAboutSame(right_branch.value, 1))
+            {
+                answer.error = UNCERTAINTY_ERROR;
+                return answer;
+            }
 
             answer.value = log(right_branch.value) / log(left_branch.value);
             break;
         }
-        case NUL:
+        case POISON:
         {
             check_error.error = TYPE_ERROR;
             return check_error;

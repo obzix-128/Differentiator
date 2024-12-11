@@ -1,12 +1,12 @@
 #include "ReadFile.h"
 
 
-ReturnValue getG(char* task_buffer)
+ReturnValue recursiveDescent(char* task_buffer)
 {
     int pointer = 0;
 
     ReturnValue value = {};
-    CHECK_RETURN_VALUE(value, getE(task_buffer, &pointer));
+    CHECK_RETURN_VALUE(value, getExpression(task_buffer, &pointer));
 
     if(task_buffer[pointer] != '$')
     {
@@ -18,11 +18,11 @@ ReturnValue getG(char* task_buffer)
     return value;
 }
 
-ReturnValue getE(char* task_buffer, int* pointer)
+ReturnValue getExpression(char* task_buffer, int* pointer)
 {
 
     ReturnValue value = {};
-    CHECK_RETURN_VALUE(value, getT(task_buffer, pointer));
+    CHECK_RETURN_VALUE(value, getTerm(task_buffer, pointer));
 
     while(task_buffer[*pointer] == '+' || task_buffer[*pointer] == '-')
     {
@@ -30,7 +30,7 @@ ReturnValue getE(char* task_buffer, int* pointer)
         (*pointer)++;
 
         ReturnValue value_two = {};
-        CHECK_RETURN_VALUE(value_two, getT(task_buffer, pointer));
+        CHECK_RETURN_VALUE(value_two, getTerm(task_buffer, pointer));
         if (value_two.error != NO_ERROR)
         {
             return value_two;
@@ -60,10 +60,10 @@ ReturnValue getE(char* task_buffer, int* pointer)
     return value;
 }
 
-ReturnValue getT(char* task_buffer, int* pointer)
+ReturnValue getTerm(char* task_buffer, int* pointer)
 {
     ReturnValue value = {};
-    CHECK_RETURN_VALUE(value, getS(task_buffer, pointer));
+    CHECK_RETURN_VALUE(value, getPower(task_buffer, pointer));
 
     while(task_buffer[*pointer] == '*' || task_buffer[*pointer] == '/')
     {
@@ -71,7 +71,7 @@ ReturnValue getT(char* task_buffer, int* pointer)
         (*pointer)++;
 
         ReturnValue value_two = {};
-        CHECK_RETURN_VALUE(value_two, getS(task_buffer, pointer));
+        CHECK_RETURN_VALUE(value_two, getPower(task_buffer, pointer));
 
         switch(operation)
         {
@@ -97,17 +97,17 @@ ReturnValue getT(char* task_buffer, int* pointer)
     return value;
 }
 
-ReturnValue getS(char* task_buffer, int* pointer)
+ReturnValue getPower(char* task_buffer, int* pointer)
 {
     ReturnValue value = {};
-    CHECK_RETURN_VALUE(value, getP(task_buffer, pointer));
+    CHECK_RETURN_VALUE(value, getPrimaryExpression(task_buffer, pointer));
 
     while(task_buffer[*pointer] == '^')
     {
         (*pointer)++;
 
         ReturnValue value_two = {};
-        CHECK_RETURN_VALUE(value_two, getP(task_buffer, pointer));
+        CHECK_RETURN_VALUE(value_two, getPrimaryExpression(task_buffer, pointer));
 
         value.node = newNode(OP, 0, 0, POW, value.node, value_two.node);
     }
@@ -115,7 +115,7 @@ ReturnValue getS(char* task_buffer, int* pointer)
     return value;
 }
 
-ReturnValue getP(char* task_buffer, int* pointer)
+ReturnValue getPrimaryExpression(char* task_buffer, int* pointer)
 {
     ReturnValue value = {};
 
@@ -123,7 +123,7 @@ ReturnValue getP(char* task_buffer, int* pointer)
     {
         (*pointer)++;
 
-        CHECK_RETURN_VALUE(value, getE(task_buffer, pointer));
+        CHECK_RETURN_VALUE(value, getExpression(task_buffer, pointer));
 
         if(task_buffer[*pointer] != ')')
         {
@@ -139,10 +139,10 @@ ReturnValue getP(char* task_buffer, int* pointer)
         ReturnValue value_three = {};
         ReturnValue value_four  = {};
 
-        value       = getV(task_buffer, pointer);
-        value_two   = getN(task_buffer, pointer);
-        value_three = getF(task_buffer, pointer);
-        value_four  = getL(task_buffer, pointer);
+        value       = getVariable(task_buffer, pointer);
+        value_two   = getNumeral(task_buffer, pointer);
+        value_three = getFuncWithOneArg(task_buffer, pointer);
+        value_four  = getFuncWithTwoArg(task_buffer, pointer);
 
         if(value.error == NO_ERROR)
         {
@@ -169,7 +169,7 @@ ReturnValue getP(char* task_buffer, int* pointer)
     return value;
 }
 
-ReturnValue getL(char* task_buffer, int* pointer)
+ReturnValue getFuncWithTwoArg(char* task_buffer, int* pointer)
 {
     ReturnValue value = {};
 
@@ -187,7 +187,7 @@ ReturnValue getL(char* task_buffer, int* pointer)
     }
     (*pointer)++;
 
-    ReturnValue value_two = getE(task_buffer, pointer);
+    ReturnValue value_two = getExpression(task_buffer, pointer);
 
     if(task_buffer[*pointer] != ')')
     {
@@ -203,7 +203,7 @@ ReturnValue getL(char* task_buffer, int* pointer)
     }
     (*pointer)++;
 
-    ReturnValue value_three = getE(task_buffer, pointer);
+    ReturnValue value_three = getExpression(task_buffer, pointer);
 
     if(task_buffer[*pointer] != ')')
     {
@@ -217,9 +217,9 @@ ReturnValue getL(char* task_buffer, int* pointer)
     return value;
 }
 
-ReturnValue getF(char* task_buffer, int* pointer)
+ReturnValue getFuncWithOneArg(char* task_buffer, int* pointer)
 {
-    Operations operation = NUL;
+    Operations operation = POISON;
     ReturnValue value = {};
     switch(task_buffer[*pointer])
     {
@@ -263,7 +263,7 @@ ReturnValue getF(char* task_buffer, int* pointer)
     }
     (*pointer)++;
 
-    ReturnValue value_two = getE(task_buffer, pointer);
+    ReturnValue value_two = getExpression(task_buffer, pointer);
     value.node = newNode(OP, 0, 0, operation, value_two.node, NULL);
 
     if(task_buffer[*pointer] != ')')
@@ -276,7 +276,7 @@ ReturnValue getF(char* task_buffer, int* pointer)
     return value;
 }
 
-ReturnValue getV(char* task_buffer, int* pointer)
+ReturnValue getVariable(char* task_buffer, int* pointer)
 {
     char variable = 0;
     int starting_position = *pointer;
@@ -296,12 +296,12 @@ ReturnValue getV(char* task_buffer, int* pointer)
         return value;
     }
 
-    value.node = newNode(VAR, 0, variable, NUL, NULL, NULL);
+    value.node = newNode(VAR, 0, variable, POISON, NULL, NULL);
 
     return value;
 }
 
-ReturnValue getN(char* task_buffer, int* pointer)
+ReturnValue getNumeral(char* task_buffer, int* pointer)
 {
     int number = 0;
     int starting_position = *pointer;
@@ -320,7 +320,7 @@ ReturnValue getN(char* task_buffer, int* pointer)
         return value;
     }
 
-    value.node = newNode(NUM, number, 0, NUL, NULL, NULL);
+    value.node = newNode(NUM, number, 0, POISON, NULL, NULL);
 
     return value;
 }
