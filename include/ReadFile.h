@@ -15,9 +15,6 @@ struct ReturnValue
     ErrorNumbers error;
 };
 
-ErrorNumbers readFile(const char* file_name, char** task_buffer);
-ErrorNumbers getFileSize(FILE* the_task_file, int* size);
-
 ReturnValue getG(char* task_buffer);
 ReturnValue getE(char* task_buffer, int* pointer);
 ReturnValue getT(char* task_buffer, int* pointer);

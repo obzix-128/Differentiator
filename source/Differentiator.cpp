@@ -4,11 +4,12 @@
 #include "ReadFile.h"
 #include "Run.h"
 #include "Simplify.h"
+#include "WriteFile.h"
 
 
 int main(const int argc, const char** argv)
 {
-    const int _NUMBERS_OF_ARGUMENTS = 3;
+    const int _NUMBERS_OF_ARGUMENTS = 4;
     if(argc != _NUMBERS_OF_ARGUMENTS)
     {
         errorHandler(NUMBER_OF_ARG_ERROR, __PRETTY_FUNCTION__);
@@ -50,6 +51,10 @@ int main(const int argc, const char** argv)
     }
 
     CHECK_ERROR(treeDump(log_file, check_return_value.node, __PRETTY_FUNCTION__, NULL));
+
+    FILE* file_to_write = NULL;
+    CHECK_ERROR(openFile(&file_to_write, argv[3], OPEN_FILE_IN_RECORDING_MODE));
+    CHECK_ERROR(prepareFileForRecording(log_file, file_to_write, value.node, answer.node))
 
     CHECK_ERROR(treeDtor(log_file, check_return_value.node));
 

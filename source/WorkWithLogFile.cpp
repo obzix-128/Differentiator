@@ -13,6 +13,57 @@ ErrorNumbers openFile(FILE** file, const char* file_name, const char* opening_mo
     return NO_ERROR;
 }
 
+ErrorNumbers readFile(const char* file_name, char** task_buffer)
+{
+    CHECK_NULL_ADDR_ERROR(file_name, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(task_buffer,   NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    FILE* the_task_file = NULL;
+    CHECK_ERROR(openFile(&the_task_file, file_name, OPEN_FILE_IN_READING_MODE));
+
+    int size = 0;
+    CHECK_ERROR(getFileSize(the_task_file, &size));
+
+    *task_buffer = (char*) calloc(size, sizeof(char));
+    CHECK_NULL_ADDR_ERROR(*task_buffer, CALLOC_ERROR);
+
+    size = fread(*task_buffer, sizeof(char), size, the_task_file);
+
+    fclose(the_task_file);
+
+    return check_error;
+}
+
+ErrorNumbers getFileSize(FILE* the_task_file, int* size)
+{
+    CHECK_NULL_ADDR_ERROR(the_task_file, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(size,          NULL_ADDRESS_ERROR);
+
+    int check_error = 0;
+
+    check_error = fseek(the_task_file, 0, SEEK_END);
+    if(check_error != 0)
+    {
+        return FSEEK_ERROR;
+    }
+
+    *size = ftell(the_task_file);
+    if(*size < 0)
+    {
+        return FTELL_ERROR;
+    }
+
+    check_error = fseek(the_task_file, 0, SEEK_SET);
+    if(check_error != 0)
+    {
+        return FSEEK_ERROR;
+    }
+
+    return NO_ERROR;
+}
+
 ErrorNumbers treeDump(FILE* log_file, Node* root, const char* func_name, Node* new_node)
 {
     CHECK_NULL_ADDR_ERROR(log_file,  NULL_ADDRESS_ERROR);

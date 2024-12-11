@@ -1,0 +1,24 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+
+\usepackage{amsmath} 
+\usepackage{graphicx} % Required for inserting images
+\graphicspath{ {images/} }
+
+\title{Как брать производную? Гайд для чайников.}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+Возьмём производную следующей функции:
+$
+(\log_{(x)}{(56)} \cdot (24)^{(x)^{2}})$
+В силу тривиальности задачи приведём только ответ:
+$
+((\frac{((-1 \cdot (\frac{(1)}{(x)} \cdot 4.02535)))}{((\ln{(x)})^{2})} \cdot (24)^{(x)^{2}}) + ((((24)^{(x)^{2}} \cdot 3.17805) \cdot (2 \cdot x)) \cdot \log_{(x)}{(56)}))$
+
+\end{document}
+

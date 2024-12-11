@@ -168,34 +168,27 @@ ReturnValue removeTrivialAddition(FILE* log_file, Node* node, int* simplificatio
 
     ReturnValue return_value = {};
 
-    if(node->left->type == NUM)
+    if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0)) // TODO? Создать дефайн/константу
     {
-        if(isItAboutSame(node->left->value.numeral, 0)) // TODO? Создать дефайн/константу
-        {
-            return_value.node = newNode(node->right->type, 0, 0, NUL, node->right->left,
-                                        node->right->right);
-            return_value.node->value = node->right->value;
+        return_value.node = newNode(node->right->type, 0, 0, NUL, node->right->left,
+                                    node->right->right);
+        return_value.node->value = node->right->value;
 
-            free(node);
+        free(node);
 
-            (*simplification_counter)++;
-        }
+        (*simplification_counter)++;
     }
-    else if(node->right->type == NUM)
+    else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 0))
     {
-        if(isItAboutSame(node->right->value.numeral, 0))
-        {
-            return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
-                                        node->left->right);
-            return_value.node->value = node->left->value;
+        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+                                    node->left->right);
+        return_value.node->value = node->left->value;
 
-            free(node);
+        free(node);
 
-            (*simplification_counter)++;
-        }
+        (*simplification_counter)++;
     }
-
-    if(return_value.node == NULL)
+    else
     {
         return_value.node = node;
     }
@@ -211,33 +204,26 @@ ReturnValue removeTrivialSubtraction(FILE* log_file, Node* node, int* simplifica
 
     ReturnValue return_value = {};
 
-    if(node->left->type == NUM)
+    if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0))
     {
-        if(isItAboutSame(node->left->value.numeral, 0))
-        {
-            Node* negative_one = newNode(NUM, -1, 0, NUL, NULL, NULL);
-            return_value.node = newNode(OP, 0, 0, MUL, negative_one, node->right);
+        Node* negative_one = newNode(NUM, -1, 0, NUL, NULL, NULL);
+        return_value.node = newNode(OP, 0, 0, MUL, negative_one, node->right);
 
-            free(node);
+        free(node);
 
-            (*simplification_counter)++;
-        }
+        (*simplification_counter)++;
     }
-    else if(node->right->type == NUM)
+    else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 0))
     {
-        if(isItAboutSame(node->right->value.numeral, 0))
-        {
-            return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
-                                        node->left->right);
-            return_value.node->value = node->left->value;
+        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+                                    node->left->right);
+        return_value.node->value = node->left->value;
 
-            free(node);
+        free(node);
 
-            (*simplification_counter)++;
-        }
+        (*simplification_counter)++;
     }
-
-    if(return_value.node == NULL)
+    else
     {
         return_value.node = node;
     }
@@ -254,59 +240,52 @@ ReturnValue removeTrivialMultiplication(FILE* log_file, Node* node, int* simplif
     ErrorNumbers check_error = NO_ERROR;
     ReturnValue return_value = {};
 
-    if(node->left->type == NUM)
+    if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 1))
     {
-        if(isItAboutSame(node->left->value.numeral, 1))
-        {
-            return_value.node = newNode(node->right->type, 0, 0, NUL, node->right->left,
-                                        node->right->right);
-            return_value.node->value = node->right->value;
+        return_value.node = newNode(node->right->type, 0, 0, NUL, node->right->left,
+                                    node->right->right);
+        return_value.node->value = node->right->value;
 
-            free(node);
+        free(node);
 
-            (*simplification_counter)++;
-        }
-        else if(isItAboutSame(node->left->value.numeral, 0))
-        {
-            check_error = treeDtor(log_file, node);
-            if(check_error != NO_ERROR)
-            {
-                return_value.error = check_error;
-                return return_value;
-            }
-
-            return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
-
-            (*simplification_counter)++;
-        }
+        (*simplification_counter)++;
     }
-    else if(node->right->type == NUM)
+    else if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0))
     {
-        if(isItAboutSame(node->right->value.numeral, 1))
+        check_error = treeDtor(log_file, node);
+        if(check_error != NO_ERROR)
         {
-            return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
-                                        node->left->right);
-            return_value.node->value = node->left->value;
-
-            free(node);
-
-            (*simplification_counter)++;
+            return_value.error = check_error;
+            return return_value;
         }
-        else if(isItAboutSame(node->right->value.numeral, 0))
-        {
-            check_error = treeDtor(log_file, node);
-            if(check_error != NO_ERROR)
-            {
-                return_value.error = check_error;
-                return return_value;
-            }
 
-            return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
-            (*simplification_counter)++;
-        }
+        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+
+        (*simplification_counter)++;
     }
+    else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 1))
+    {
+        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+                                    node->left->right);
+        return_value.node->value = node->left->value;
 
-    if(return_value.node == NULL)
+        free(node);
+
+        (*simplification_counter)++;
+    }
+    else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 0))
+    {
+        check_error = treeDtor(log_file, node);
+        if(check_error != NO_ERROR)
+        {
+            return_value.error = check_error;
+            return return_value;
+        }
+
+        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        (*simplification_counter)++;
+    }
+    else
     {
         return_value.node = node;
     }
@@ -323,42 +302,35 @@ ReturnValue removeTrivialDivision(FILE* log_file, Node* node, int* simplificatio
     ErrorNumbers check_error = NO_ERROR;
     ReturnValue return_value = {};
 
-    if(node->left->type == NUM)
+    if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0))
     {
-        if(isItAboutSame(node->left->value.numeral, 0))
+        check_error = treeDtor(log_file, node);
+        if(check_error != NO_ERROR)
         {
-            check_error = treeDtor(log_file, node);
-            if(check_error != NO_ERROR)
-            {
-                return_value.error = check_error;
-                return return_value;
-            }
-
-            return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
-
-            (*simplification_counter)++;
-        }
-    }
-    else if(node->right->type == NUM)
-    {
-        if(isItAboutSame(node->right->value.numeral, 1))
-        {
-            return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
-                                        node->left->right);
-            return_value.node->value = node->left->value;
-
-            free(node);
-
-            (*simplification_counter)++;
-        }
-        else if(isItAboutSame(node->right->value.numeral, 0))
-        {
-            return_value.error = UNCERTAINTY_ERROR;
+            return_value.error = check_error;
             return return_value;
         }
-    }
 
-    if(return_value.node == NULL)
+        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+
+        (*simplification_counter)++;
+    }
+    else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 1))
+    {
+        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+                                    node->left->right);
+        return_value.node->value = node->left->value;
+
+        free(node);
+
+        (*simplification_counter)++;
+    }
+    else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 0))
+    {
+        return_value.error = UNCERTAINTY_ERROR;
+        return return_value;
+    }
+    else
     {
         return_value.node = node;
     }
@@ -375,62 +347,56 @@ ReturnValue removeTrivialPower(FILE* log_file, Node* node, int* simplification_c
     ErrorNumbers check_error = NO_ERROR;
     ReturnValue return_value = {};
 
-    if(node->left->type == NUM)
+    if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 1))
     {
-        if(isItAboutSame(node->left->value.numeral, 1))
+        check_error = treeDtor(log_file, node);
+        if(check_error != NO_ERROR)
         {
-            check_error = treeDtor(log_file, node);
-            if(check_error != NO_ERROR)
-            {
-                return_value.error = check_error;
-                return return_value;
-            }
-
-            return_value.node = newNode(NUM, 1, 0, NUL, NULL, NULL);
-
-            (*simplification_counter)++;
+            return_value.error = check_error;
+            return return_value;
         }
-        else if(isItAboutSame(node->left->value.numeral, 0))
-        {
-            check_error = treeDtor(log_file, node);
-            if(check_error != NO_ERROR)
-            {
-                return_value.error = check_error;
-                return return_value;
-            }
 
-            return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+        return_value.node = newNode(NUM, 1, 0, NUL, NULL, NULL);
 
-            (*simplification_counter)++;
-        }
+        (*simplification_counter)++;
     }
-    else if(node->right->type == NUM)
+    else if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0))
     {
-        if(isItAboutSame(node->right->value.numeral, 1))
+        check_error = treeDtor(log_file, node);
+        if(check_error != NO_ERROR)
         {
-            return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
-                                        node->left->right);
-            return_value.node->value = node->left->value;
-
-            free(node);
-
-            (*simplification_counter)++;
+            return_value.error = check_error;
+            return return_value;
         }
-        else if(isItAboutSame(node->right->value.numeral, 0))
-        {
-            check_error = treeDtor(log_file, node);
-            if(check_error != NO_ERROR)
-            {
-                return_value.error = check_error;
-                return return_value;
-            }
 
-            return_value.node = newNode(NUM, 1, 0, NUL, NULL, NULL);
-            (*simplification_counter)++;
-        }
+        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+
+        (*simplification_counter)++;
     }
+    else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 1))
+    {
 
-    if(return_value.node == NULL)
+        return_value.node = newNode(node->left->type, 0, 0, NUL, node->left->left,
+                                    node->left->right);
+        return_value.node->value = node->left->value;
+
+        free(node);
+
+        (*simplification_counter)++;
+    }
+    else if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 0))
+    {
+        check_error = treeDtor(log_file, node);
+        if(check_error != NO_ERROR)
+        {
+            return_value.error = check_error;
+            return return_value;
+        }
+
+        return_value.node = newNode(NUM, 1, 0, NUL, NULL, NULL);
+        (*simplification_counter)++;
+    }
+    else
     {
         return_value.node = node;
     }
@@ -447,24 +413,20 @@ ReturnValue removeTrivialNaturalLogarithm(FILE* log_file, Node* node, int* simpl
     ErrorNumbers check_error = NO_ERROR;
     ReturnValue return_value = {};
 
-    if(node->left->type == NUM)
+    if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 1))
     {
-        if(isItAboutSame(node->left->value.numeral, 1))
+        check_error = treeDtor(log_file, node);
+        if(check_error != NO_ERROR)
         {
-            check_error = treeDtor(log_file, node);
-            if(check_error != NO_ERROR)
-            {
-                return_value.error = check_error;
-                return return_value;
-            }
-
-            return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
-
-            (*simplification_counter)++;
+            return_value.error = check_error;
+            return return_value;
         }
-    }
 
-    if(return_value.node == NULL)
+        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+
+        (*simplification_counter)++;
+    }
+    else
     {
         return_value.node = node;
     }
@@ -481,24 +443,20 @@ ReturnValue removeTrivialLogarithm(FILE* log_file, Node* node, int* simplificati
     ErrorNumbers check_error = NO_ERROR;
     ReturnValue return_value = {};
 
-    if(node->right->type == NUM)
+    if(node->right->type == NUM && isItAboutSame(node->right->value.numeral, 1))
     {
-        if(isItAboutSame(node->right->value.numeral, 1))
+        check_error = treeDtor(log_file, node);
+        if(check_error != NO_ERROR)
         {
-            check_error = treeDtor(log_file, node);
-            if(check_error != NO_ERROR)
-            {
-                return_value.error = check_error;
-                return return_value;
-            }
-
-            return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
-
-            (*simplification_counter)++;
+            return_value.error = check_error;
+            return return_value;
         }
-    }
 
-    if(return_value.node == NULL)
+        return_value.node = newNode(NUM, 0, 0, NUL, NULL, NULL);
+
+        (*simplification_counter)++;
+    }
+    else
     {
         return_value.node = node;
     }
