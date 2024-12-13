@@ -502,7 +502,7 @@ ReturnValue findBranchSuitableForEvaluation(FILE* log_file, Node* node, int* sim
                                                                         simplification_counter));
         }
     }
-    if(node->right != 0) // TODO? Вынести в одну функцию left/right
+    if(node->right != 0) // TODO: Вынести в одну функцию left/right
     {
         int number_of_variables_in_branch = 0;
 

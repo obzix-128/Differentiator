@@ -43,22 +43,24 @@ int main(const int argc, const char** argv)
 
     CHECK_ERROR(treeDump(log_file, answer.node, __PRETTY_FUNCTION__, NULL));
 
-    ReturnValue check_return_value = simplifyExpression(log_file, answer.node);
-    if(check_return_value.error != NO_ERROR)
+    answer = simplifyExpression(log_file, answer.node);
+    if(answer.error != NO_ERROR)
     {
-        errorHandler(check_return_value.error, __PRETTY_FUNCTION__);
-        return check_return_value.error;
+        errorHandler(answer.error, __PRETTY_FUNCTION__);
+        return answer.error;
     }
 
-    CHECK_ERROR(treeDump(log_file, check_return_value.node, __PRETTY_FUNCTION__, NULL));
+    CHECK_ERROR(treeDump(log_file, answer.node, __PRETTY_FUNCTION__, NULL));
 
     FILE* file_to_write = NULL;
     CHECK_ERROR(openFile(&file_to_write, argv[3], OPEN_FILE_IN_RECORDING_MODE));
-    CHECK_ERROR(prepareFileForRecording(log_file, file_to_write, value.node, answer.node))
+    CHECK_ERROR(writeAnswer(log_file, file_to_write, value.node, answer.node))
 
-    CHECK_ERROR(treeDtor(log_file, check_return_value.node));
+    CHECK_ERROR(treeDtor(log_file, answer.node));
+    CHECK_ERROR(treeDtor(log_file, value.node));
 
     free(task_buffer);
+    fclose(file_to_write);
     fclose(log_file);
 
     printf("DONE\n");

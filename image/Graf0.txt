@@ -2,16 +2,26 @@ digraph
 {
 rankdir = TB;
 {
-_00DD0D00[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D00 | type = VAR | value = x | { left = NULL | right = NULL }} "]
-_00DD0D20[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D20 | type = NUM | value = 5.00 | { left = NULL | right = NULL }} "]
-_00DD0D40[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D40 | type = OP | value = s | { <_l_00DD0D20> left = 00DD0D20 | right = NULL }} "]
-_00DD0D40:<_l_00DD0D20>->_00DD0D20
-_00DD0D60[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D60 | type = VAR | value = x | { left = NULL | right = NULL }} "]
-_00DD0D80[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D80 | type = OP | value = ^ | { <_l_00DD0D40> left = 00DD0D40 | <_r_00DD0D60> right = 00DD0D60 }} "]
-_00DD0D80:<_l_00DD0D40>->_00DD0D40
+_00DD0D00[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D00 | type = NUM | value = 15.00 | { left = NULL | right = NULL }} "]
+_00DD0D20[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D20 | type = VAR | value = x | { left = NULL | right = NULL }} "]
+_00DD0D40[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D40 | type = NUM | value = 3.00 | { left = NULL | right = NULL }} "]
+_00DD0D60[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D60 | type = OP | value = ^ | { <_l_00DD0D20> left = 00DD0D20 | <_r_00DD0D40> right = 00DD0D40 }} "]
+_00DD0D60:<_l_00DD0D20>->_00DD0D20
+_00DD0D60:<_r_00DD0D40>->_00DD0D40
+_00DD0D80[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0D80 | type = OP | value = * | { <_l_00DD0D00> left = 00DD0D00 | <_r_00DD0D60> right = 00DD0D60 }} "]
+_00DD0D80:<_l_00DD0D00>->_00DD0D00
 _00DD0D80:<_r_00DD0D60>->_00DD0D60
-_00DD0DA0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0DA0 | type = OP | value = l | { <_l_00DD0D00> left = 00DD0D00 | <_r_00DD0D80> right = 00DD0D80 }} "]
-_00DD0DA0:<_l_00DD0D00>->_00DD0D00
-_00DD0DA0:<_r_00DD0D80>->_00DD0D80
+_00DD0DA0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0DA0 | type = OP | value = s | { <_l_00DD0D80> left = 00DD0D80 | right = NULL }} "]
+_00DD0DA0:<_l_00DD0D80>->_00DD0D80
+_00DD0DC0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0DC0 | type = NUM | value = 12.00 | { left = NULL | right = NULL }} "]
+_00DD0DE0[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0DE0 | type = OP | value = c | { <_l_00DD0DC0> left = 00DD0DC0 | right = NULL }} "]
+_00DD0DE0:<_l_00DD0DC0>->_00DD0DC0
+_00DD0E00[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0E00 | type = NUM | value = 3.00 | { left = NULL | right = NULL }} "]
+_00DD0E20[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0E20 | type = OP | value = ^ | { <_l_00DD0DE0> left = 00DD0DE0 | <_r_00DD0E00> right = 00DD0E00 }} "]
+_00DD0E20:<_l_00DD0DE0>->_00DD0DE0
+_00DD0E20:<_r_00DD0E00>->_00DD0E00
+_00DD0E40[shape = record, style = "filled" fillcolor = "#bbffff", label = " { address = 00DD0E40 | type = OP | value = + | { <_l_00DD0DA0> left = 00DD0DA0 | <_r_00DD0E20> right = 00DD0E20 }} "]
+_00DD0E40:<_l_00DD0DA0>->_00DD0DA0
+_00DD0E40:<_r_00DD0E20>->_00DD0E20
 }
 }

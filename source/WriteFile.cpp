@@ -1,8 +1,7 @@
 #include "WriteFile.h"
 
 
-ErrorNumbers prepareFileForRecording(FILE* log_file, FILE* file_to_write, Node* root_of_task,
-                                     Node* root_of_answer)
+ErrorNumbers writeAnswer(FILE* log_file, FILE* file_to_write, Node* root_of_task, Node* root_of_answer)
 {
     CHECK_NULL_ADDR_ERROR(log_file,       NULL_ADDRESS_ERROR);
     CHECK_NULL_ADDR_ERROR(file_to_write,  NULL_ADDRESS_ERROR);
@@ -14,11 +13,14 @@ ErrorNumbers prepareFileForRecording(FILE* log_file, FILE* file_to_write, Node* 
     CHECK_ERROR(printTitle(log_file, file_to_write));
 
     fprintf(file_to_write, "Возьмём производную следующей функции:\n");
+    fprintf(file_to_write, "\\newline\n");
     fprintf(file_to_write, "$\n");
     CHECK_ERROR(writeToFile(log_file, file_to_write, root_of_task));
     fprintf(file_to_write, "$\n");
+    fprintf(file_to_write, "\\newline\n");
 
     fprintf(file_to_write, "В силу тривиальности задачи приведём только ответ:\n");
+    fprintf(file_to_write, "\\newline\n");
     fprintf(file_to_write, "$\n");
     CHECK_ERROR(writeToFile(log_file, file_to_write, root_of_answer));
     fprintf(file_to_write, "$\n");
