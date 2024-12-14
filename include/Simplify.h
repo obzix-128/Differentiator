@@ -18,6 +18,7 @@ struct ReturnValueEvaluate
 ReturnValue simplifyExpression(FILE* log_file, Node* node);
 
 ReturnValue findBranchSuitableForEvaluation(FILE* log_file, Node* node, int* simplification_counter);
+ReturnValue evaluateNode(FILE* log_file, Node* node, int* simplification_counter);
 ReturnValueEvaluate evaluate               (FILE* log_file, Node* node, int* simplification_counter);
 ReturnValueEvaluate evaluateOperation      (FILE* log_file, Node* node, int* simplification_counter);
 

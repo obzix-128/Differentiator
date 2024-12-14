@@ -168,7 +168,7 @@ ReturnValue removeTrivialAddition(FILE* log_file, Node* node, int* simplificatio
 
     ReturnValue return_value = {};
 
-    if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0)) // TODO? Создать дефайн/константу
+    if(node->left->type == NUM && isItAboutSame(node->left->value.numeral, 0))
     {
         return_value.node = newNode(node->right->type, 0, 0, POISON, node->right->left,
                                     node->right->right);
@@ -470,70 +470,65 @@ ReturnValue findBranchSuitableForEvaluation(FILE* log_file, Node* node, int* sim
     IF_NULL_ADDRESS_RETURN_ERROR(node,                   NULL_ADDRESS_ERROR);
     IF_NULL_ADDRESS_RETURN_ERROR(simplification_counter, NULL_ADDRESS_ERROR);
 
-    ReturnValue check_error = {};
-    ReturnValueEvaluate branch_value = {};
+    ReturnValue result       = {};
+    ReturnValue left_branch  = {};
+    ReturnValue right_branch = {};
 
     if(node->left != 0)
     {
-        int number_of_variables_in_branch = 0;
-        CHECK_RETURN_VALUE(check_error, checkForVariables(node->left, &number_of_variables_in_branch));
-
-        if(number_of_variables_in_branch == 0)
-        {
-            branch_value = evaluate(log_file, node->left, simplification_counter);
-            if(branch_value.error != NO_ERROR)
-            {
-                check_error.error = branch_value.error;
-                return check_error;
-            }
-
-            ErrorNumbers check_return_value = treeDtor(log_file, node->left);
-            if(check_return_value != NO_ERROR)
-            {
-                check_error.error = check_return_value;
-                return check_error;
-            }
-
-            node->left = newNode(NUM, branch_value.value, 0, POISON, NULL, NULL);
-        }
-        else
-        {
-        CHECK_RETURN_VALUE(check_error, findBranchSuitableForEvaluation(log_file, node->left,
-                                                                        simplification_counter));
-        }
+        CHECK_RETURN_VALUE(left_branch, evaluateNode(log_file, node->left, simplification_counter));
+        node->left = left_branch.node;
     }
-    if(node->right != 0) // TODO: Вынести в одну функцию left/right
+    if(node->right != 0)
     {
-        int number_of_variables_in_branch = 0;
-
-        CHECK_RETURN_VALUE(check_error, checkForVariables(node->right, &number_of_variables_in_branch));
-        if(number_of_variables_in_branch == 0)
-        {
-            branch_value = evaluate(log_file, node->right, simplification_counter);
-            if(branch_value.error != NO_ERROR)
-            {
-                check_error.error = branch_value.error;
-                return check_error;
-            }
-
-            ErrorNumbers check_return_value = treeDtor(log_file, node->right);
-            if(check_return_value != NO_ERROR)
-            {
-                check_error.error = check_return_value;
-                return check_error;
-            }
-
-            node->right = newNode(NUM, branch_value.value, 0, POISON, NULL, NULL);
-        }
-        else
-        {
-        CHECK_RETURN_VALUE(check_error, findBranchSuitableForEvaluation(log_file, node->right,
-                                                                        simplification_counter));
-        }
+        CHECK_RETURN_VALUE(right_branch, evaluateNode(log_file, node->right, simplification_counter));
+        node->right = right_branch.node;
     }
+    result.node = node;
 
-    check_error.node = node;
-    return check_error;
+    return result;
+}
+
+ReturnValue evaluateNode(FILE* log_file, Node* node, int* simplification_counter)
+{
+    IF_NULL_ADDRESS_RETURN_ERROR(log_file,               NULL_ADDRESS_ERROR);
+    IF_NULL_ADDRESS_RETURN_ERROR(node,                   NULL_ADDRESS_ERROR);
+    IF_NULL_ADDRESS_RETURN_ERROR(simplification_counter, NULL_ADDRESS_ERROR);
+
+    ReturnValue check_error = {};
+    ReturnValue result      = {};
+
+    ReturnValueEvaluate branch_value = {};
+
+    int number_of_variables_in_branch = 0;
+    CHECK_RETURN_VALUE(check_error, checkForVariables(node, &number_of_variables_in_branch));
+
+    if(number_of_variables_in_branch == 0)
+    {
+        branch_value = evaluate(log_file, node, simplification_counter);
+        if(branch_value.error != NO_ERROR)
+        {
+            check_error.error = branch_value.error;
+            return check_error;
+        }
+
+        ErrorNumbers check_return_value = treeDtor(log_file, node);
+        if(check_return_value != NO_ERROR)
+        {
+            check_error.error = check_return_value;
+            return check_error;
+        }
+
+        node = newNode(NUM, branch_value.value, 0, POISON, NULL, NULL);
+    }
+    else
+    {
+    CHECK_RETURN_VALUE(check_error, findBranchSuitableForEvaluation(log_file, node,
+                                                                    simplification_counter));
+    }
+    result.node = node;
+
+    return result;
 }
 
 ReturnValueEvaluate evaluate(FILE* log_file, Node* node, int* simplification_counter)

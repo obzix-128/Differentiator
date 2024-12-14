@@ -118,136 +118,57 @@ ErrorNumbers writeOperation(FILE* log_file, FILE* file_to_write, Node* node)
     {
         case ADD:
         {
-            fprintf(file_to_write, "(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, " + ");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
-
-            fprintf(file_to_write, ")");
-
+            CHECK_ERROR(writeAdd(log_file, file_to_write, node));
             break;
         }
         case SUB:
         {
-            fprintf(file_to_write, "(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, " - ");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
-
-            fprintf(file_to_write, ")");
-
+            CHECK_ERROR(writeSub(log_file, file_to_write, node));
             break;
         }
         case MUL:
         {
-            fprintf(file_to_write, "(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, " \\cdot ");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
-
-            fprintf(file_to_write, ")");
-
+            CHECK_ERROR(writeMul(log_file, file_to_write, node));
             break;
         }
         case DIV:
         {
-            fprintf(file_to_write, "\\frac{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, ")}{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
-
-            fprintf(file_to_write, ")}");
-
+            CHECK_ERROR(writeDiv(log_file, file_to_write, node));
             break;
         }
         case POW:
         {
-            fprintf(file_to_write, "(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, ")^{");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
-
-            fprintf(file_to_write, "}");
-
+            CHECK_ERROR(writePow(log_file, file_to_write, node));
             break;
         }
         case SIN:
         {
-            fprintf(file_to_write, "\\sin{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, ")}");
-
+            CHECK_ERROR(writeSin(log_file, file_to_write, node));
             break;
         }
         case COS:
         {
-            fprintf(file_to_write, "\\cos{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, ")}");
-
+            CHECK_ERROR(writeCos(log_file, file_to_write, node));
             break;
         }
         case TAN:
         {
-            fprintf(file_to_write, "\\tan{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, ")}");
-
+            CHECK_ERROR(writeTan(log_file, file_to_write, node));
             break;
         }
         case EXP:
         {
-            fprintf(file_to_write, "\\exp{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, ")}");
-
+            CHECK_ERROR(writeExp(log_file, file_to_write, node));
             break;
         }
         case LN:
         {
-            fprintf(file_to_write, "\\ln{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, ")}");
-
+            CHECK_ERROR(writeLn(log_file, file_to_write, node));
             break;
         }
         case LOG:
         {
-            fprintf(file_to_write, "\\log_{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
-
-            fprintf(file_to_write, ")}{(");
-
-            CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
-
-            fprintf(file_to_write, ")}");
-
+            CHECK_ERROR(writeLog(log_file, file_to_write, node));
             break;
         }
         case POISON:
@@ -263,6 +184,214 @@ ErrorNumbers writeOperation(FILE* log_file, FILE* file_to_write, Node* node)
             break;
         }
     }
+
+    return check_error;
+}
+
+ErrorNumbers writeAdd(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+
+    fprintf(file_to_write, " + ");
+
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
+
+    return check_error;
+}
+
+ErrorNumbers writeSub(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+
+    fprintf(file_to_write, " - ");
+
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
+
+    return check_error;
+}
+
+ErrorNumbers writeMul(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    if(node->left->type == OP &&
+       (node->left->value.operation == ADD || //TODO? Сдвинуть на пробел влево?
+        node->left->value.operation == SUB))
+    {
+        fprintf(file_to_write, "(");
+        CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+        fprintf(file_to_write, ")");
+    }
+    else
+    {
+        CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    }
+
+    fprintf(file_to_write, " \\cdot ");
+
+    if(node->right->type == OP &&
+       (node->right->value.operation == ADD ||
+        node->right->value.operation == SUB))
+    {
+        fprintf(file_to_write, "(");
+        CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
+        fprintf(file_to_write, ")");
+    }
+    else
+    {
+        CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
+    }
+
+    return check_error;
+}
+
+ErrorNumbers writeDiv(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    fprintf(file_to_write, "\\frac{");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    fprintf(file_to_write, "}{");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
+    fprintf(file_to_write, "}");
+
+    return check_error;
+}
+
+ErrorNumbers writePow(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    if(node->left->type == OP)
+    {
+        fprintf(file_to_write, "(");
+        CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+        fprintf(file_to_write, ")");
+    }
+    else
+    {
+        CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    }
+
+    fprintf(file_to_write, "^{");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
+    fprintf(file_to_write, "}");
+
+    return check_error;
+}
+
+ErrorNumbers writeSin(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    fprintf(file_to_write, "\\sin{(");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    fprintf(file_to_write, ")}");
+
+    return check_error;
+}
+
+ErrorNumbers writeCos(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    fprintf(file_to_write, "\\cos{(");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    fprintf(file_to_write, ")}");
+
+    return check_error;
+}
+
+ErrorNumbers writeTan(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    fprintf(file_to_write, "\\tan{(");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    fprintf(file_to_write, ")}");
+
+    return check_error;
+}
+
+ErrorNumbers writeExp(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    fprintf(file_to_write, "\\exp{(");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    fprintf(file_to_write, ")}");
+
+    return check_error;
+}
+
+ErrorNumbers writeLn(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    fprintf(file_to_write, "\\ln{(");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    fprintf(file_to_write, ")}");
+
+    return check_error;
+}
+
+ErrorNumbers writeLog(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    ErrorNumbers check_error = NO_ERROR;
+
+    fprintf(file_to_write, "\\log_{");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->left));
+    fprintf(file_to_write, "}{(");
+    CHECK_ERROR(writeToFile(log_file, file_to_write, node->right));
+    fprintf(file_to_write, ")}");
 
     return check_error;
 }
