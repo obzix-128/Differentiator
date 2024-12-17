@@ -78,12 +78,12 @@ ErrorNumbers writeToFile(FILE* log_file, FILE* file_to_write, Node* node)
     {
         case NUM:
         {
-            fprintf(file_to_write, "%lg", node->value.numeral);
+            CHECK_ERROR(writeNumeral(log_file, file_to_write, node));
             break;
         }
         case VAR:
         {
-            fprintf(file_to_write, "%c", node->value.variable);
+            CHECK_ERROR(writeVariable(log_file, file_to_write, node));
             break;
         }
         case OP:
@@ -104,6 +104,35 @@ ErrorNumbers writeToFile(FILE* log_file, FILE* file_to_write, Node* node)
     }
 
     return check_error;
+}
+
+ErrorNumbers writeNumeral(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    if(node->value.numeral < 0)
+    {
+        fprintf(file_to_write, "(%lg)", node->value.numeral);
+    }
+    else
+    {
+        fprintf(file_to_write, "%lg", node->value.numeral);
+    }
+
+    return NO_ERROR;
+}
+
+ErrorNumbers writeVariable(FILE* log_file, FILE* file_to_write, Node* node)
+{
+    CHECK_NULL_ADDR_ERROR(log_file,      NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(file_to_write, NULL_ADDRESS_ERROR);
+    CHECK_NULL_ADDR_ERROR(node,          NULL_ADDRESS_ERROR);
+
+    fprintf(file_to_write, "%c", node->value.variable);
+
+    return NO_ERROR;
 }
 
 ErrorNumbers writeOperation(FILE* log_file, FILE* file_to_write, Node* node)

@@ -25,16 +25,16 @@ int main(const int argc, const char** argv)
     char* task_buffer = NULL;
     CHECK_ERROR(readFile(argv[2], &task_buffer));
 
-    ReturnValue value = recursiveDescent(task_buffer);
-    if(value.error != NO_ERROR)
+    ReturnValue task = recursiveDescent(task_buffer);
+    if(task.error != NO_ERROR)
     {
-        errorHandler(value.error, __PRETTY_FUNCTION__);
-        return value.error;
+        errorHandler(task.error, __PRETTY_FUNCTION__);
+        return task.error;
     }
 
-    CHECK_ERROR(treeDump(log_file, value.node, __PRETTY_FUNCTION__, NULL));
+    CHECK_ERROR(treeDump(log_file, task.node, __PRETTY_FUNCTION__, NULL));
 
-    ReturnValue answer = diff(log_file, value.node);
+    ReturnValue answer = diff(log_file, task.node);
     if(answer.error != NO_ERROR)
     {
         errorHandler(answer.error, __PRETTY_FUNCTION__);
@@ -54,10 +54,10 @@ int main(const int argc, const char** argv)
 
     FILE* file_to_write = NULL;
     CHECK_ERROR(openFile(&file_to_write, argv[3], OPEN_FILE_IN_RECORDING_MODE));
-    CHECK_ERROR(writeAnswer(log_file, file_to_write, value.node, answer.node))
+    CHECK_ERROR(writeAnswer(log_file, file_to_write, task.node, answer.node))
 
     CHECK_ERROR(treeDtor(log_file, answer.node));
-    CHECK_ERROR(treeDtor(log_file, value.node));
+    CHECK_ERROR(treeDtor(log_file, task.node));
 
     free(task_buffer);
     fclose(file_to_write);

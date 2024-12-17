@@ -70,7 +70,7 @@ ReturnValue diff(FILE* log_file, Node* task_node)
     return new_node;
 }
 
-ReturnValue diffNumeral()
+ReturnValue diffNumeral(void)
 {
     ReturnValue new_node = {};
 
@@ -79,7 +79,7 @@ ReturnValue diffNumeral()
     return new_node;
 }
 
-ReturnValue diffVariable()
+ReturnValue diffVariable(void)
 {
     ReturnValue new_node = {};
 
@@ -307,12 +307,13 @@ ReturnValue diffPower(FILE* log_file, Node* task_node)
     return answer;
 }
 
-ReturnValue diffExponentialFunction(FILE* log_file, Node* task_node)
+ReturnValue diffExponentialFunction(FILE* log_file, Node* task_node) // TODO? Показательная функция на английском?
 {
     IF_NULL_ADDRESS_RETURN_ERROR(log_file,  NULL_ADDRESS_ERROR);
     IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
 
     ReturnValue null_node = {};
+
     COPY_LEFT  (copy_left);
     NEW_OP_NODE(natural_log, LN, copy_left, null_node);
 
@@ -355,6 +356,7 @@ ReturnValue diffSin(FILE* log_file, Node* task_node)
     IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
 
     ReturnValue null_node = {};
+
     COPY_LEFT(copy_left);
 
     NEW_OP_NODE(cos, COS, copy_left, null_node);
@@ -372,6 +374,7 @@ ReturnValue diffCos(FILE* log_file, Node* task_node)
     IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
 
     ReturnValue null_node = {};
+
     COPY_LEFT(copy_left);
 
     NEW_NUM_NODE(negative_one, -1);
@@ -393,6 +396,7 @@ ReturnValue diffTan(FILE* log_file, Node* task_node)
     IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
 
     ReturnValue null_node = {};
+
     COPY_LEFT(copy_left);
 
     NEW_OP_NODE(cos, COS, copy_left, null_node);
@@ -440,6 +444,7 @@ ReturnValue diffLog(FILE* log_file, Node* task_node)
     IF_NULL_ADDRESS_RETURN_ERROR(task_node, NULL_ADDRESS_ERROR);
 
     ReturnValue null_node = {};
+    
     COPY_LEFT (copy_left );
     COPY_RIGHT(copy_right);
 

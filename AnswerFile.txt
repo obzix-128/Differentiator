@@ -16,12 +16,12 @@
 Возьмём производную следующей функции:
 \newline
 $
-\sin{(15 \cdot x^{3})} + (\cos{(12)})^{3}$
+5 \cdot \sin{(15 \cdot x^{3})} + (\cos{(20 \cdot x + 1)})^{3}$
 \newline
 В силу тривиальности задачи приведём только ответ:
 \newline
 $
-\cos{(15 \cdot x^{3})} \cdot 3 \cdot x^{2} \cdot 15$
+\cos{(15 \cdot x^{3})} \cdot 3 \cdot x^{2} \cdot 15 \cdot 5 + 3 \cdot \sin{(20 \cdot x + 1)} \cdot (-1) \cdot 20 \cdot (\cos{(20 \cdot x + 1)})^{2}$
 
 \end{document}
 

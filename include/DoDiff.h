@@ -7,9 +7,10 @@
 #include "ReadFile.h"
 
 ReturnValue diff(FILE* log_file, Node* task_node);
-ReturnValue diffNumeral ();
-ReturnValue diffVariable();
+ReturnValue diffNumeral (void);
+ReturnValue diffVariable(void);
 ReturnValue diffOperation(FILE* log_file, Node* task_node);
+
 ReturnValue treeCopy(Node* node);
 ReturnValue checkForVariables(Node* task_node, int* counter);
 

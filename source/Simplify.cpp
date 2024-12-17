@@ -14,8 +14,9 @@ ReturnValue simplifyExpression(FILE* log_file, Node* root)
     do
     {
         simplification_counter = 0;
-        CHECK_RETURN_VALUE(check_error, findBranchSuitableForEvaluation(log_file, check_error.node,
-                                                                        &simplification_counter));
+        CHECK_RETURN_VALUE(check_error,
+                           findBranchForEvaluation(log_file, check_error.node,
+                                                   &simplification_counter));
         CHECK_RETURN_VALUE(check_error,
                            findBranchesToRemoveTrivialCalculations(log_file, check_error.node,
                                                                    &simplification_counter));
@@ -41,8 +42,8 @@ ReturnValue findBranchesToRemoveTrivialCalculations(FILE* log_file, Node* node,
     }
     else if(node->type == OP)
     {
-        CHECK_RETURN_VALUE(answer, determineTypeOfNodeOperation(log_file, node,
-                                                                simplification_counter));
+        CHECK_RETURN_VALUE(answer, removeTrivialOperation(log_file, node,
+                                                          simplification_counter));
     }
     else
     {
@@ -71,7 +72,7 @@ ReturnValue findBranchesToRemoveTrivialCalculations(FILE* log_file, Node* node,
     return answer;
 }
 
-ReturnValue determineTypeOfNodeOperation(FILE* log_file, Node* node, int* simplification_counter)
+ReturnValue removeTrivialOperation(FILE* log_file, Node* node, int* simplification_counter)
 {
     IF_NULL_ADDRESS_RETURN_ERROR(log_file,               NULL_ADDRESS_ERROR);
     IF_NULL_ADDRESS_RETURN_ERROR(node,                   NULL_ADDRESS_ERROR);
@@ -464,7 +465,7 @@ ReturnValue removeTrivialLogarithm(FILE* log_file, Node* node, int* simplificati
     return return_value;
 }
 
-ReturnValue findBranchSuitableForEvaluation(FILE* log_file, Node* node, int* simplification_counter)
+ReturnValue findBranchForEvaluation(FILE* log_file, Node* node, int* simplification_counter)
 {
     IF_NULL_ADDRESS_RETURN_ERROR(log_file,               NULL_ADDRESS_ERROR);
     IF_NULL_ADDRESS_RETURN_ERROR(node,                   NULL_ADDRESS_ERROR);
@@ -523,8 +524,8 @@ ReturnValue evaluateNode(FILE* log_file, Node* node, int* simplification_counter
     }
     else
     {
-    CHECK_RETURN_VALUE(check_error, findBranchSuitableForEvaluation(log_file, node,
-                                                                    simplification_counter));
+    CHECK_RETURN_VALUE(check_error, findBranchForEvaluation(log_file, node,
+                                                            simplification_counter));
     }
     result.node = node;
 
